@@ -1,13 +1,17 @@
 import { createSlice } from '@reduxjs/toolkit';
+import { nanoid } from 'nanoid';
 import persistReducer from 'redux-persist/es/persistReducer';
 import storage from 'redux-persist/lib/storage';
+import { createAction } from '@reduxjs/toolkit';
+
+export const checkContactExistence = createAction('contacts/checkExistence');
 
 const contactData = 
   [
-    { id: 'id-1', name: 'Rosie Simpson', number: '459-12-56' },
-    { id: 'id-2', name: 'Hermione Kline', number: '443-89-12' },
-    { id: 'id-3', name: 'Eden Clements', number: '645-17-79' },
-    { id: 'id-4', name: 'Annie Copeland', number: '227-91-26' },
+    // { id: 'id-1', name: 'Rosie Simpson', number: '459-12-56' },
+    // { id: 'id-2', name: 'Hermione Kline', number: '443-89-12' },
+    // { id: 'id-3', name: 'Eden Clements', number: '645-17-79' },
+    // { id: 'id-4', name: 'Annie Copeland', number: '227-91-26' },
   ]
 ;
 
@@ -21,8 +25,13 @@ const contactSlice = createSlice({
   initialState: INITIAL_STATE,
 
   reducers: {
+    checkExistence: (state, action) => {
+      const { name, number } = action.payload;
+      state.contactExists = state.contacts.some((contact) => contact.name.toLowerCase() === name.toLowerCase() || contact.number === number);
+    },
     addContact(state, action) {
-      state.contacts = [...state.contacts, action.payload];
+      const newContact = { id: nanoid(), ...action.payload };
+      state.contacts.push(newContact);
     },
     deleteContact(state, action) {
       state.contacts = state.contacts.filter(
@@ -42,6 +51,7 @@ export const persistedReducer = persistReducer(
   contactSlice.reducer
 );
 
-export const { addContacts, deleteContacts } = contactSlice.actions;
+export const { addContact, deleteContact } = contactSlice.actions;
 // Редюсер слайсу
 export const contactReducer = contactSlice.reducer;
+export const { checkExistence } = contactSlice.actions;
