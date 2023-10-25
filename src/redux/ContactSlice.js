@@ -1,5 +1,4 @@
 import { createSlice } from '@reduxjs/toolkit';
-import { nanoid } from 'nanoid';
 import persistReducer from 'redux-persist/es/persistReducer';
 import storage from 'redux-persist/lib/storage';
 import { createAction } from '@reduxjs/toolkit';
@@ -32,8 +31,7 @@ const contactSlice = createSlice({
     },
     addContact(state, action) {
       if(!state.contactExists) {
-      const newContact = { id: nanoid(), ...action.payload };
-      state.contacts.push(newContact);
+      state.contacts = [...state.contacts, action.payload];
       }
       else {
         alert('this contact already exist')

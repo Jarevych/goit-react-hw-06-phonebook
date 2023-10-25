@@ -8,8 +8,6 @@ const ContactList = () => {
   const contacts = useSelector(state => state.contacts.contacts)
   const filter = useSelector(state => state.filter.filter)
 
-  // const contactArr =  Array.isArray(contacts) && contacts.length !== 0;
-  // console.log(contacts)
   const handleDeleteContact = (contactId) => {
     dispatch(deleteContact(contactId));
   };
