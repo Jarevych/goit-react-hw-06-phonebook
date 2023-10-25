@@ -6,15 +6,22 @@ const ContactList = () => {
   const dispatch = useDispatch();
   
   const contacts = useSelector(state => state.contacts.contacts)
-  const contactArr =  Array.isArray(contacts) && contacts.length !== 0;
-  console.log(contacts)
+  const filter = useSelector(state => state.filter.filter)
+
+  // const contactArr =  Array.isArray(contacts) && contacts.length !== 0;
+  // console.log(contacts)
   const handleDeleteContact = (contactId) => {
     dispatch(deleteContact(contactId));
   };
+  const filteredContacts = filter
+    ? contacts.filter(contact => contact.name.toLowerCase().includes(filter.toLowerCase()))
+    : contacts;
+
   return (
     <div>
       <ul className="contact-list">
-        {contactArr && Array.isArray && contacts.map(contact => (
+       
+      {filteredContacts.map(contact => (
           <li key={contact.id} className="contact-item">
             <p className="contact-name">Name: {contact.name}</p>
             <p className="contact-number">Number: {contact.number}</p>

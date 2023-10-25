@@ -1,8 +1,6 @@
-// import React, { useState } from 'react';
-// import './styles.css';
+import '../styles.css';
 import ContactList from './ContactList';
 import FormInput from './Form';
-// import { useEffect } from 'react';
 import { useSelector } from 'react-redux';
 import Filter from './Filter';
 

@@ -4,6 +4,7 @@ import persistReducer from 'redux-persist/es/persistReducer';
 import storage from 'redux-persist/lib/storage';
 import { createAction } from '@reduxjs/toolkit';
 
+
 export const checkContactExistence = createAction('contacts/checkExistence');
 
 const contactData = 
@@ -17,7 +18,7 @@ const contactData =
 
 const INITIAL_STATE = {
   contacts: contactData,
-  // filter:'',
+  filter:'',
 };
 
 const contactSlice = createSlice({
@@ -26,12 +27,18 @@ const contactSlice = createSlice({
 
   reducers: {
     checkExistence: (state, action) => {
-      const { name, number } = action.payload;
-      state.contactExists = state.contacts.some((contact) => contact.name.toLowerCase() === name.toLowerCase() || contact.number === number);
+        const { name, number } = action.payload;
+        state.contactExists = state.contacts.some((contact) => contact.name.toLowerCase() === name.toLowerCase() || contact.number === number);
     },
     addContact(state, action) {
+      if(!state.contactExists) {
       const newContact = { id: nanoid(), ...action.payload };
       state.contacts.push(newContact);
+      }
+      else {
+        alert('this contact already exist')
+
+      }
     },
     deleteContact(state, action) {
       state.contacts = state.contacts.filter(
@@ -52,6 +59,5 @@ export const persistedReducer = persistReducer(
 );
 
 export const { addContact, deleteContact } = contactSlice.actions;
-// Редюсер слайсу
 export const contactReducer = contactSlice.reducer;
 export const { checkExistence } = contactSlice.actions;
