@@ -1,24 +1,24 @@
 import React, { useState } from 'react';
 import InputName from './InputName';
 import InputNumber from './InputNumber';
-import { useDispatch } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import { addContact } from 'redux/ContactSlice';
-import { checkExistence } from '../redux/ContactSlice';
+// import { checkExistence } from '../redux/ContactSlice';
 import { nanoid } from 'nanoid';
 
 
 export default function FormInput() {
   const [name, setName] = useState('');
   const [number, setNumber] = useState('');
-
+  const contacts = useSelector(state => state.contacts.contacts)
   const dispatch = useDispatch();
 
   const handleSubmit = event => {
     event.preventDefault();
     const newContact = {  id: nanoid(), name, number };
+    const contactExists = contacts.some((contact) => contact.name.toLowerCase() === name.toLowerCase() || contact.number === number);
 
-    const contactExists = dispatch(checkExistence(newContact));
-        if (!contactExists) {
+        if (contactExists) {
           alert(`"${name}" is already in contacts`);
           return;
         }

@@ -25,10 +25,6 @@ const contactSlice = createSlice({
   initialState: INITIAL_STATE,
 
   reducers: {
-    checkExistence: (state, action) => {
-        const { name, number } = action.payload;
-        state.contactExists = state.contacts.some((contact) => contact.name.toLowerCase() === name.toLowerCase() || contact.number === number);
-    },
     addContact(state, action) {
       if(!state.contactExists) {
       state.contacts = [...state.contacts, action.payload];
