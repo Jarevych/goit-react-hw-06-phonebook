@@ -3,7 +3,6 @@ import InputName from './InputName';
 import InputNumber from './InputNumber';
 import { useDispatch, useSelector } from 'react-redux';
 import { addContact } from 'redux/ContactSlice';
-// import { checkExistence } from '../redux/ContactSlice';
 import { nanoid } from 'nanoid';
 
 
